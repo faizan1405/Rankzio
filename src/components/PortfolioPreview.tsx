@@ -64,7 +64,11 @@ export function PortfolioPreviewModal({
 }) {
   useEffect(() => {
     // Lock scroll without shifting the page: compensate for the scrollbar
-    // width that disappears when overflow becomes hidden.
+    // width that disappears when overflow becomes hidden. Also stop Lenis
+    // so its virtual scroll loop doesn't fight the locked overflow and
+    // yank the page to the top while the modal is open.
+    const lenis = (window as any).__lenis as { stop?: () => void; start?: () => void } | undefined;
+    lenis?.stop?.();
     const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
     const prevOverflow = document.body.style.overflow;
     const prevPadding = document.body.style.paddingRight;
@@ -75,6 +79,7 @@ export function PortfolioPreviewModal({
     return () => {
       document.body.style.overflow = prevOverflow;
       document.body.style.paddingRight = prevPadding;
+      lenis?.start?.();
     };
   }, []);
 
