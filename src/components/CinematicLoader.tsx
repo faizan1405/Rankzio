@@ -36,12 +36,20 @@ export function CinematicLoader({ onComplete }: Props) {
 
   useEffect(() => {
     if (!visible) return;
+    // Capture scroll position before the loader fades out — if anything
+    // causes a scroll shift during the exit transition, Lenis will be
+    // aligned to the correct position.
+    const scrollY = window.scrollY;
     // Total on-screen time ~2.4s; the exit fade adds ~0.6s.
     const done = setTimeout(() => {
       setVisible(false);
       try {
         localStorage.setItem("rz_seen_loader", "1");
       } catch {}
+      // Restore scroll after the overlay is gone.
+      requestAnimationFrame(() => {
+        window.scrollTo(0, scrollY);
+      });
       onComplete?.();
     }, 2400);
     return () => clearTimeout(done);

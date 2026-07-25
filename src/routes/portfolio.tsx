@@ -1,9 +1,10 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ExternalLink, TrendingUp, X } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { SectionEyebrow } from "@/components/Reveal";
 import { MagneticButton } from "@/components/MagneticButton";
+import { useLenisPause } from "@/components/SmoothScroll";
 import portfolioImg from "@/assets/portfolio-hero.jpg";
 import workInterior from "@/assets/work-interior.jpg";
 import workSkincare from "@/assets/work-skincare.jpg";
@@ -115,13 +116,39 @@ function PortfolioPage() {
   const [filter, setFilter] = useState<FilterType>("All");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [overlayVisible, setOverlayVisible] = useState(false);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const { pauseScroll, resumeScroll } = useLenisPause();
 
   const filtered = filter === "All" ? projects : projects.filter((p) => p.category === filter);
   const selected = selectedId ? projects.find((p) => p.id === selectedId) : null;
 
+  // Pause Lenis while the overlay is open, restore on close.
+  useEffect(() => {
+    if (selectedId) {
+      pauseScroll();
+      requestAnimationFrame(() => {
+        closeBtnRef.current?.focus();
+      });
+    }
+    return () => {
+      if (selectedId) resumeScroll();
+    };
+  }, [selectedId, pauseScroll, resumeScroll]);
+
+  // Escape key to close.
+  useEffect(() => {
+    if (!selectedId) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeOverlay();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedId]);
+
   const openProject = useCallback((id: string) => {
     setSelectedId(id);
-    // Use requestAnimationFrame to ensure the overlay renders before transitioning
+    setOverlayVisible(false);
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         setOverlayVisible(true);
@@ -131,10 +158,11 @@ function PortfolioPage() {
 
   const closeOverlay = useCallback(() => {
     setOverlayVisible(false);
-    // Delay clearing the project so the fade-out animation completes
-    setTimeout(() => {
-      setSelectedId(null);
-    }, 300);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setSelectedId(null);
+      });
+    });
   }, []);
 
   return (
@@ -246,7 +274,7 @@ function PortfolioPage() {
             className="relative flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-3xl bg-background shadow-float"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="overflow-y-auto">
+            <div className="overflow-y-auto" data-lenis-prevent>
               {/* Hero image */}
               <div className="relative aspect-[16/8] w-full overflow-hidden">
                 <img
@@ -261,6 +289,7 @@ function PortfolioPage() {
                   }}
                 />
                 <button
+                  ref={closeBtnRef}
                   type="button"
                   onClick={closeOverlay}
                   aria-label="Close preview"

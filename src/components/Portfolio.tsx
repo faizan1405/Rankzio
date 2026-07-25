@@ -1,6 +1,7 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { Reveal, SectionEyebrow } from "./Reveal";
 import { TrendingUp, ArrowUpRight, X } from "lucide-react";
+import { useLenisPause } from "./SmoothScroll";
 import workSkincare from "@/assets/work-skincare.jpg";
 import workInterior from "@/assets/work-interior.jpg";
 import workFintech from "@/assets/work-fintech.jpg";
@@ -136,9 +137,38 @@ export function Portfolio() {
   const [open, setOpen] = useState<string | null>(null);
   const [overlayVisible, setOverlayVisible] = useState(false);
   const active = projects.find((p) => p.id === open);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const { pauseScroll, resumeScroll } = useLenisPause();
+
+  // Pause Lenis while the overlay is open, restore on close.
+  useEffect(() => {
+    if (open) {
+      pauseScroll();
+      // Focus the close button for accessibility once the overlay is visible.
+      requestAnimationFrame(() => {
+        closeBtnRef.current?.focus();
+      });
+    }
+    return () => {
+      if (open) resumeScroll();
+    };
+  }, [open, pauseScroll, resumeScroll]);
+
+  // Escape key to close.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeOverlay();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
 
   const openProject = useCallback((id: string) => {
     setOpen(id);
+    setOverlayVisible(false);
+    // Let the overlay render first, then transition opacity in.
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         setOverlayVisible(true);
@@ -148,9 +178,11 @@ export function Portfolio() {
 
   const closeOverlay = useCallback(() => {
     setOverlayVisible(false);
-    setTimeout(() => {
-      setOpen(null);
-    }, 300);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setOpen(null);
+      });
+    });
   }, []);
 
   return (
@@ -209,7 +241,7 @@ export function Portfolio() {
             className="relative flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-3xl bg-background shadow-float"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="overflow-y-auto">
+            <div className="overflow-y-auto" data-lenis-prevent>
               {/* Hero image */}
               <div className="relative aspect-[16/8] w-full overflow-hidden">
                 <img
@@ -224,6 +256,7 @@ export function Portfolio() {
                   }}
                 />
                 <button
+                  ref={closeBtnRef}
                   type="button"
                   onClick={closeOverlay}
                   aria-label="Close preview"
