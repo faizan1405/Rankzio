@@ -1,0 +1,252 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   Rank Zio Digital — Design System
+   Premium, luxury-but-approachable, AI-first brand language.
+   Colors derived from the Rank Zio logo (blue → green gradient).
+   ============================================================ */
+
+@theme inline {
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-deep: var(--brand-blue-deep);
+  --color-brand-green: var(--brand-green);
+  --color-brand-green-soft: var(--brand-green-soft);
+  --color-soft-blue: var(--soft-blue);
+  --color-soft-green: var(--soft-green);
+  --color-soft-grey: var(--soft-grey);
+}
+
+:root {
+  --radius: 1rem;
+
+  /* Neutral, luxurious light canvas */
+  --background: oklch(0.995 0.003 220);
+  --foreground: oklch(0.18 0.03 245);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.03 245);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.03 245);
+
+  /* Brand — extracted from logo */
+  --brand-blue: oklch(0.62 0.18 245);          /* Rankzio blue */
+  --brand-blue-deep: oklch(0.42 0.19 258);     /* deep arrow blue */
+  --brand-green: oklch(0.72 0.19 155);         /* Rankzio green */
+  --brand-green-soft: oklch(0.82 0.14 158);
+
+  --primary: var(--brand-blue);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.965 0.012 220);
+  --secondary-foreground: oklch(0.2 0.03 245);
+
+  --muted: oklch(0.965 0.008 220);
+  --muted-foreground: oklch(0.5 0.02 245);
+  --accent: oklch(0.95 0.04 175);
+  --accent-foreground: oklch(0.2 0.03 245);
+
+  --destructive: oklch(0.6 0.22 27);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.92 0.01 230 / 0.7);
+  --input: oklch(0.92 0.01 230);
+  --ring: var(--brand-blue);
+
+  /* Very soft tints */
+  --soft-blue: oklch(0.97 0.025 235);
+  --soft-green: oklch(0.97 0.03 158);
+  --soft-grey: oklch(0.97 0.004 240);
+
+  /* Signature gradients */
+  --gradient-brand: linear-gradient(120deg, oklch(0.62 0.18 245) 0%, oklch(0.68 0.2 195) 50%, oklch(0.72 0.19 155) 100%);
+  --gradient-brand-soft: linear-gradient(120deg, oklch(0.62 0.18 245 / 0.85), oklch(0.72 0.19 155 / 0.85));
+  --gradient-mesh: radial-gradient(1200px 800px at 10% 10%, oklch(0.62 0.18 245 / 0.18), transparent 60%),
+                   radial-gradient(1000px 700px at 90% 20%, oklch(0.72 0.19 155 / 0.18), transparent 60%),
+                   radial-gradient(1000px 800px at 50% 100%, oklch(0.68 0.2 195 / 0.15), transparent 60%);
+  --gradient-text: linear-gradient(100deg, oklch(0.42 0.19 258), oklch(0.62 0.18 245) 40%, oklch(0.72 0.19 155));
+
+  /* Shadows */
+  --shadow-soft: 0 2px 10px -2px oklch(0.4 0.1 245 / 0.08), 0 8px 30px -8px oklch(0.4 0.1 245 / 0.12);
+  --shadow-float: 0 20px 60px -20px oklch(0.42 0.19 258 / 0.28), 0 8px 24px -12px oklch(0.72 0.19 155 / 0.18);
+  --shadow-glow-blue: 0 0 40px oklch(0.62 0.18 245 / 0.45);
+  --shadow-glow-green: 0 0 40px oklch(0.72 0.19 155 / 0.4);
+  --shadow-glow-brand: 0 10px 40px -10px oklch(0.62 0.18 245 / 0.55), 0 20px 60px -20px oklch(0.72 0.19 155 / 0.35);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html, body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  /* Hide native cursor on capable devices */
+  @media (hover: hover) and (pointer: fine) {
+    html, body, * { cursor: none !important; }
+  }
+  ::selection {
+    background: oklch(0.72 0.19 155 / 0.25);
+    color: oklch(0.18 0.03 245);
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+  }
+  body {
+    line-height: 1.6;
+  }
+}
+
+/* Faint noise texture layer */
+@utility noise {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+}
+
+@utility text-gradient-brand {
+  background-image: var(--gradient-text);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+@utility bg-gradient-brand {
+  background-image: var(--gradient-brand);
+}
+
+@utility bg-mesh {
+  background-image: var(--gradient-mesh);
+}
+
+@utility shadow-float {
+  box-shadow: var(--shadow-float);
+}
+@utility shadow-glow-brand {
+  box-shadow: var(--shadow-glow-brand);
+}
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+/* Glass surface */
+@utility glass {
+  background: color-mix(in oklch, white 60%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid color-mix(in oklch, white 60%, transparent);
+}
+
+/* Breathing float */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@utility animate-floaty {
+  animation: floaty 6s ease-in-out infinite;
+}
+
+/* Shine sweep across buttons */
+@keyframes shine {
+  0% { transform: translateX(-120%) skewX(-20deg); }
+  60%, 100% { transform: translateX(220%) skewX(-20deg); }
+}
+@utility btn-shine {
+  position: relative;
+  overflow: hidden;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 40%;
+    background: linear-gradient(90deg, transparent, oklch(1 0 0 / 0.55), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+    animation: shine 5s ease-in-out infinite;
+    animation-delay: 1s;
+    pointer-events: none;
+  }
+}
+
+/* Gradient text drift */
+@keyframes drift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@utility text-drift {
+  background-size: 200% 200%;
+  animation: drift 8s ease-in-out infinite;
+}
+
+/* Slow rotate for orbs */
+@keyframes slow-spin {
+  to { transform: rotate(360deg); }
+}
+@utility animate-slow-spin { animation: slow-spin 40s linear infinite; }
+
+/* Underline grow */
+@utility link-underline {
+  position: relative;
+  display: inline-block;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -2px;
+    height: 1.5px;
+    width: 100%;
+    background: var(--gradient-brand);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+  &:hover::after { transform: scaleX(1); }
+}

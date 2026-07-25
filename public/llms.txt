@@ -1,0 +1,29 @@
+# Rankzio Digital
+
+> AI-first digital growth studio in Delhi building premium websites, SEO systems, paid campaigns, content and automation that turn attention into compounding revenue.
+
+Rankzio pairs senior human strategists with AI-native workflows to ship editorial-grade websites, generative-engine-optimized SEO, high-ROAS Google & Meta ads, always-on social systems, and chatbot/automation builds for global brands.
+
+## Pages
+
+- [Home](/): Overview of Rankzio's services, work and philosophy.
+- [About](/about): Team, story and how the studio operates.
+- [Services](/services): Full catalogue of growth services.
+- [Portfolio](/portfolio): Selected client work with outcomes.
+- [Blog](/blog): Essays on AI, SEO, ads, web and brand.
+- [Contact](/contact): Book a call, WhatsApp or email the studio.
+
+## Services
+
+- [Website Development](/services/website-development): Premium, high-conversion websites and storefronts.
+- [AI SEO](/services/ai-seo): SEO that ranks in Google and inside ChatGPT, Perplexity and Gemini answers.
+- [Social Media Management](/services/social-media-management): Editorial social systems for premium brands.
+- [Google & Meta Ads](/services/google-meta-ads): Creative-led paid media built to scale profitably.
+- [AI Chatbot & Automation](/services/ai-chatbot-automation): Chatbots and workflow automation that recover revenue.
+- [Content Writing](/services/content-writing): Editorial content built for humans and AI answer engines.
+
+## Blog
+
+- [Generative Engine Optimization in 2026](/blog/generative-engine-optimization-2026): How to rank inside ChatGPT, Perplexity and Gemini answers.
+- [Why Your Brand Website Is Costing You Revenue](/blog/why-your-brand-website-is-costing-you-revenue): The compounding cost of a slow, generic site.
+- [Meta Ads Creative Testing in 2026](/blog/meta-ads-creative-testing-2026): A modern framework for creative-led paid social.
