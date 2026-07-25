@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { motion } from "motion/react";
 import { X, TrendingUp, ArrowUpRight } from "lucide-react";
 
 /**
@@ -24,8 +23,7 @@ export interface PreviewProject {
   ctaHref?: string;
 }
 
-// Reusable card shell — uses shared layoutIds so the modal can smoothly
-// expand out of the clicked card via motion's shared-element transition.
+// Reusable card shell — animations disabled for the portfolio page test.
 export function PortfolioPreviewCard({
   project,
   onOpen,
@@ -36,24 +34,20 @@ export function PortfolioPreviewCard({
   children: React.ReactNode;
 }) {
   return (
-    <motion.button
+    <button
       type="button"
-      layoutId={`preview-card-${project.id}`}
       onClick={() => onOpen(project.id)}
-      whileHover={{ y: -10 }}
       className="group relative block h-full w-full overflow-hidden rounded-3xl text-left shadow-soft transition-all duration-500 hover:shadow-float"
     >
       {children}
-    </motion.button>
+    </button>
   );
 }
 
 /**
- * Preview modal — always rendered as `position: fixed` and centered in the
- * current viewport. Body scroll is locked while open, and the scrollbar
- * width is compensated so the page never shifts. The modal never forces the
- * page to scroll to the top; when it closes, the visitor sees the exact
- * same scroll position they clicked from.
+ * Preview modal — animations disabled for the portfolio page test.
+ * The page is pinned using position: fixed so opening the modal never
+ * causes a scroll jump.
  */
 export function PortfolioPreviewModal({
   project,
@@ -63,9 +57,6 @@ export function PortfolioPreviewModal({
   onClose: () => void;
 }) {
   useEffect(() => {
-    // Lock background scroll without letting the browser jump to the top.
-    // We save the current scroll position, pin the body with position: fixed
-    // offset by the negative scroll, and restore everything on close.
     const lenis = (window as any).__lenis as { stop?: () => void; start?: () => void } | undefined;
     lenis?.stop?.();
     const scrollY = window.scrollY;
@@ -93,12 +84,7 @@ export function PortfolioPreviewModal({
   const hue = project.hue ?? 220;
 
   return (
-    <motion.div
-      key="backdrop"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+    <div
       className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
       onClick={onClose}
     >
@@ -107,13 +93,11 @@ export function PortfolioPreviewModal({
         className="absolute inset-0 backdrop-blur-2xl"
         style={{ background: "oklch(0.12 0.03 240 / 0.55)" }}
       />
-      <motion.div
-        layoutId={`preview-card-${project.id}`}
+      <div
         onClick={(e: React.MouseEvent) => e.stopPropagation()}
         className="relative flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-3xl bg-background shadow-float"
       >
         <div className="overflow-y-auto">
-          {/* Featured hero image (matches home-page preview) */}
           <div className="relative aspect-[16/8] w-full overflow-hidden">
             <img
               src={project.image}
@@ -196,7 +180,7 @@ export function PortfolioPreviewModal({
             </a>
           </div>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
