@@ -1,12 +1,6 @@
-import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Reveal, SectionEyebrow } from "./Reveal";
-import { TrendingUp, ArrowUpRight } from "lucide-react";
-import {
-  PortfolioPreviewCard,
-  PortfolioPreviewModal,
-  type PreviewProject,
-} from "./PortfolioPreview";
+import { TrendingUp, ArrowUpRight, X } from "lucide-react";
 import workSkincare from "@/assets/work-skincare.jpg";
 import workInterior from "@/assets/work-interior.jpg";
 import workFintech from "@/assets/work-fintech.jpg";
@@ -16,12 +10,24 @@ import workGoogleAds from "@/assets/work-google-ads.jpg";
 import workMetaAds from "@/assets/work-meta-ads.jpg";
 import workSocial from "@/assets/work-social.jpg";
 
-interface HomeProject extends PreviewProject {
-  overview: string;
+interface ProjectItem {
+  id: string;
+  title: string;
+  category: string;
+  client: string;
   industry: string;
+  meta: string;
+  overview: string;
+  badge: string;
+  hue: number;
+  image: string;
+  challenge: string;
+  solution: string;
+  process: string;
+  results: { label: string; value: string }[];
 }
 
-const projects: HomeProject[] = [
+const projects: ProjectItem[] = [
   { id: "1", title: "Lumen Skincare", category: "Website", industry: "Beauty & DTC", meta: "Beauty & DTC",
     overview: "A cinematic DTC storefront that turned skincare browsing into an editorial experience.",
     badge: "+312% Revenue", image: workSkincare, hue: 155,
@@ -94,7 +100,7 @@ const projects: HomeProject[] = [
     results: [{label:"Followers",value:"+20x"},{label:"Engage",value:"+340%"},{label:"Inbound",value:"+8x"},{label:"Reach",value:"12M"}] },
 ];
 
-function CardBody({ p }: { p: HomeProject }) {
+function CardBody({ p }: { p: ProjectItem }) {
   return (
     <>
       <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-3xl">
@@ -128,7 +134,25 @@ function CardBody({ p }: { p: HomeProject }) {
 
 export function Portfolio() {
   const [open, setOpen] = useState<string | null>(null);
+  const [overlayVisible, setOverlayVisible] = useState(false);
   const active = projects.find((p) => p.id === open);
+
+  const openProject = useCallback((id: string) => {
+    setOpen(id);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setOverlayVisible(true);
+      });
+    });
+  }, []);
+
+  const closeOverlay = useCallback(() => {
+    setOverlayVisible(false);
+    setTimeout(() => {
+      setOpen(null);
+    }, 300);
+  }, []);
+
   return (
     <section id="work" className="relative py-32 md:py-40">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
@@ -145,18 +169,138 @@ export function Portfolio() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((p, i) => (
             <Reveal key={p.id} delay={(i % 3) * 0.05}>
-              <PortfolioPreviewCard project={p} onOpen={setOpen}>
+              <button
+                type="button"
+                onClick={() => openProject(p.id)}
+                className="group relative block h-full w-full overflow-hidden rounded-3xl text-left shadow-soft transition-all duration-500 hover:shadow-float"
+              >
                 <CardBody p={p} />
-              </PortfolioPreviewCard>
+              </button>
             </Reveal>
           ))}
         </div>
       </div>
-      <AnimatePresence>
-        {active && (
-          <PortfolioPreviewModal project={active} onClose={() => setOpen(null)} />
-        )}
-      </AnimatePresence>
+
+      {/* Preview Overlay — uses position:fixed on itself, never touches body styles */}
+      {active && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+          style={{
+            opacity: overlayVisible ? 1 : 0,
+            pointerEvents: overlayVisible ? "auto" : "none",
+            transition: "opacity 0.3s ease",
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) closeOverlay();
+          }}
+        >
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: "oklch(0.12 0.03 240 / 0.55)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+            }}
+          />
+
+          {/* Content */}
+          <div
+            className="relative flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-3xl bg-background shadow-float"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="overflow-y-auto">
+              {/* Hero image */}
+              <div className="relative aspect-[16/8] w-full overflow-hidden">
+                <img
+                  src={active.image}
+                  alt={active.title}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: `linear-gradient(160deg, oklch(0.25 0.14 ${active.hue ?? 220} / 0.45), transparent 55%), linear-gradient(0deg, oklch(0.1 0.04 ${active.hue ?? 220} / 0.65), transparent 55%)`,
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={closeOverlay}
+                  aria-label="Close preview"
+                  className="absolute right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/25 text-white backdrop-blur-md transition hover:bg-white/40"
+                >
+                  <X size={18} />
+                </button>
+                <div className="absolute bottom-6 left-6 right-6 flex flex-wrap items-end justify-between gap-4 text-white">
+                  <div>
+                    <div className="text-xs font-semibold uppercase tracking-widest opacity-90">
+                      {active.category}
+                      {active.meta ? ` · ${active.meta}` : ""}
+                    </div>
+                    <h2 className="mt-2 text-3xl font-semibold tracking-tight md:text-4xl">
+                      {active.title}
+                    </h2>
+                  </div>
+                  <div className="inline-flex items-center gap-1.5 rounded-full bg-white/25 px-4 py-1.5 text-sm font-semibold backdrop-blur-md">
+                    <TrendingUp size={14} />
+                    {active.badge}
+                  </div>
+                </div>
+              </div>
+
+              {/* Details */}
+              <div className="grid grid-cols-1 gap-8 p-8 md:grid-cols-3 md:p-10">
+                {[
+                  ["Challenge", active.challenge],
+                  ["Solution", active.solution],
+                  ["Process", active.process],
+                ].map(([label, body]) => (
+                  <div key={label}>
+                    <div className="text-xs font-semibold uppercase tracking-widest text-gradient-brand">
+                      {label}
+                    </div>
+                    <p className="mt-2 text-foreground/80">{body}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Results */}
+              <div className="px-8 pb-8 md:px-10">
+                <div className="text-xs font-semibold uppercase tracking-widest text-gradient-brand">
+                  Results
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-3 md:grid-cols-4">
+                  {active.results.map((r) => (
+                    <div key={r.label} className="rounded-2xl glass p-5">
+                      <div className="text-3xl font-semibold tracking-tight text-gradient-brand">
+                        {r.value}
+                      </div>
+                      <div className="mt-1 text-xs uppercase tracking-widest text-foreground/60">
+                        {r.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* CTA */}
+              <div className="flex flex-wrap items-center justify-between gap-4 border-t border-foreground/10 bg-soft-grey/50 p-8 md:p-10">
+                <div className="text-sm text-foreground/70">
+                  Want a result like this for your brand?
+                </div>
+                <button
+                  type="button"
+                  onClick={closeOverlay}
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-brand px-6 py-3 text-sm font-semibold text-white shadow-glow-brand transition hover:opacity-95"
+                >
+                  Start a similar project
+                  <ArrowUpRight size={16} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
