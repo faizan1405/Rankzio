@@ -63,22 +63,29 @@ export function PortfolioPreviewModal({
   onClose: () => void;
 }) {
   useEffect(() => {
-    // Lock scroll without shifting the page: compensate for the scrollbar
-    // width that disappears when overflow becomes hidden. Also stop Lenis
-    // so its virtual scroll loop doesn't fight the locked overflow and
-    // yank the page to the top while the modal is open.
+    // Lock background scroll without letting the browser jump to the top.
+    // We save the current scroll position, pin the body with position: fixed
+    // offset by the negative scroll, and restore everything on close.
     const lenis = (window as any).__lenis as { stop?: () => void; start?: () => void } | undefined;
     lenis?.stop?.();
+    const scrollY = window.scrollY;
     const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-    const prevOverflow = document.body.style.overflow;
-    const prevPadding = document.body.style.paddingRight;
-    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.overflowY = "scroll";
     if (scrollBarWidth > 0) {
       document.body.style.paddingRight = `${scrollBarWidth}px`;
     }
     return () => {
-      document.body.style.overflow = prevOverflow;
-      document.body.style.paddingRight = prevPadding;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.overflowY = "";
+      document.body.style.paddingRight = "";
+      window.scrollTo(0, scrollY);
       lenis?.start?.();
     };
   }, []);
