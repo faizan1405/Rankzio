@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://rank-zio-digitaly.lovable.app/sitemap.xml
+Sitemap: https://rank-zio-digitaly.vercel.app/sitemap.xml

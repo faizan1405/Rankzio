@@ -12,7 +12,7 @@ import { FAQ } from "@/components/FAQ";
 import { FinalCTA } from "@/components/FinalCTA";
 import { faqJsonLd } from "@/lib/structured-data";
 
-const SITE = "https://rank-zio-canvas.lovable.app";
+import { SITE } from "@/lib/site-url";
 
 const homepageFaq = [
   { q: "What makes Rank Zio Digital different from other agencies?", a: "We combine editorial-grade craft with AI-native workflows. Every deliverable is stress-tested by models and shipped by senior humans — so you get agency taste at studio speed." },

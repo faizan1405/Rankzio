@@ -4,7 +4,7 @@ import { serviceHeadScripts } from "@/lib/structured-data";
 import img from "@/assets/service-content.jpg";
 import midImg from "@/assets/work-interior.jpg";
 
-const SITE = "https://rank-zio-canvas.lovable.app";
+import { SITE } from "@/lib/site-url";
 const T = "Content Writing";
 const desc = "Editorial articles, landing pages and thought-leadership that rank in search, convert visitors and sound distinctly human.";
 

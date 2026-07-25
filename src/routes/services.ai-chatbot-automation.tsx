@@ -4,7 +4,7 @@ import { serviceHeadScripts } from "@/lib/structured-data";
 import img from "@/assets/service-ai.jpg";
 import midImg from "@/assets/work-crm.jpg";
 
-const SITE = "https://rank-zio-canvas.lovable.app";
+import { SITE } from "@/lib/site-url";
 const T = "AI Chatbot & Automation";
 const desc = "Custom AI agents that qualify leads, answer support and automate ops — trained on your data, integrated with your stack.";
 

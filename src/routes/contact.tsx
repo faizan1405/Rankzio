@@ -7,7 +7,7 @@ import { Mail, Phone, MessageCircle, MapPin, Clock, Instagram, Facebook, Send, P
 import contactImg from "@/assets/contact-hero.jpg";
 import { waLink } from "@/lib/whatsapp";
 
-const SITE = "https://rank-zio-canvas.lovable.app";
+import { SITE } from "@/lib/site-url";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({

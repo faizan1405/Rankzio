@@ -6,7 +6,7 @@ import { Reveal, SectionEyebrow } from "@/components/Reveal";
 import { Clock, Twitter, Linkedin, Link as LinkIcon } from "lucide-react";
 import { posts, type BlogPost } from "@/lib/blog";
 
-const SITE = "https://rank-zio-canvas.lovable.app";
+import { SITE } from "@/lib/site-url";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => {

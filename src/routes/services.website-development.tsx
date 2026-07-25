@@ -4,7 +4,7 @@ import { serviceHeadScripts } from "@/lib/structured-data";
 import img from "@/assets/service-webdev.jpg";
 import midImg from "@/assets/work-fintech.jpg";
 
-const SITE = "https://rank-zio-canvas.lovable.app";
+import { SITE } from "@/lib/site-url";
 const T = "Website Development";
 const desc = "Custom, fast, conversion-focused websites built on modern stacks — engineered for search, speed and story.";
 

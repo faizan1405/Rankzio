@@ -4,7 +4,7 @@ import { serviceHeadScripts } from "@/lib/structured-data";
 import img from "@/assets/service-ads.jpg";
 import midImg from "@/assets/work-google-ads.jpg";
 
-const SITE = "https://rank-zio-canvas.lovable.app";
+import { SITE } from "@/lib/site-url";
 const T = "Google & Meta Ads";
 const desc = "Full-funnel Google and Meta ads engineered for ROAS — search, PMax, YouTube, Instagram, Facebook and remarketing.";
 

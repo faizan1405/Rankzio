@@ -4,7 +4,7 @@ import { serviceHeadScripts } from "@/lib/structured-data";
 import img from "@/assets/service-social.jpg";
 import midImg from "@/assets/work-skincare.jpg";
 
-const SITE = "https://rank-zio-canvas.lovable.app";
+import { SITE } from "@/lib/site-url";
 const T = "Social Media Management";
 const desc = "Editorial, reels, community and creator partnerships — social that builds real audiences and moves inventory.";
 

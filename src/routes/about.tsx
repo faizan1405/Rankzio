@@ -67,7 +67,7 @@ function TeamCard({ m, i }: { m: typeof team[number]; i: number }) {
 }
 
 
-const SITE = "https://rank-zio-canvas.lovable.app";
+import { SITE } from "@/lib/site-url";
 
 export const Route = createFileRoute("/about")({
   head: () => ({

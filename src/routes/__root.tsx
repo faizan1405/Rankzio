@@ -14,7 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteChrome } from "../components/SiteChrome";
 import logoAsset from "../assets/rankzio-logo.png.asset.json";
 
-const SITE = "https://rank-zio-canvas.lovable.app";
+import { SITE } from "@/lib/site-url";
 
 function NotFoundComponent() {
   return (

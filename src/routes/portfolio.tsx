@@ -24,7 +24,7 @@ import workSocial from "@/assets/work-social.jpg";
 
 void workAutomation;
 
-const SITE = "https://rank-zio-canvas.lovable.app";
+import { SITE } from "@/lib/site-url";
 
 export const Route = createFileRoute("/portfolio")({
   head: () => ({

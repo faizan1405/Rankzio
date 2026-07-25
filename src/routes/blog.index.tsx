@@ -6,7 +6,7 @@ import { ArrowRight, Clock } from "lucide-react";
 import blogImg from "@/assets/blog-hero.jpg";
 import { posts } from "@/lib/blog";
 
-const SITE = "https://rank-zio-canvas.lovable.app";
+import { SITE } from "@/lib/site-url";
 
 export const Route = createFileRoute("/blog/")({
   head: () => ({

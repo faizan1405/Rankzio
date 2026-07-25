@@ -4,7 +4,7 @@ import { serviceHeadScripts } from "@/lib/structured-data";
 import img from "@/assets/service-seo.jpg";
 import midImg from "@/assets/work-analytics.jpg";
 
-const SITE = "https://rank-zio-canvas.lovable.app";
+import { SITE } from "@/lib/site-url";
 const T = "AI SEO";
 const desc = "AI-first SEO that ranks in Google and inside ChatGPT, Perplexity and Gemini answers — technical, content and links, done right.";
 

@@ -11,7 +11,7 @@ import svcAds from "@/assets/svc-ads.jpg";
 import svcAutomation from "@/assets/svc-automation.jpg";
 import svcContent from "@/assets/svc-content.jpg";
 
-const SITE = "https://rank-zio-canvas.lovable.app";
+import { SITE } from "@/lib/site-url";
 
 export const Route = createFileRoute("/services/")({
   head: () => ({

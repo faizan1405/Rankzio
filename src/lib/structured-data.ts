@@ -1,4 +1,4 @@
-const SITE = "https://rank-zio-canvas.lovable.app";
+import { SITE } from "@/lib/site-url";
 
 export function faqJsonLd(faq: { q: string; a: string }[]) {
   return {
