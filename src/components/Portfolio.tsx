@@ -178,11 +178,9 @@ export function Portfolio() {
 
   const closeOverlay = useCallback(() => {
     setOverlayVisible(false);
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setOpen(null);
-      });
-    });
+    setTimeout(() => {
+      setOpen(null);
+    }, 300);
   }, []);
 
   return (

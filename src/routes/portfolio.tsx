@@ -158,11 +158,9 @@ function PortfolioPage() {
 
   const closeOverlay = useCallback(() => {
     setOverlayVisible(false);
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setSelectedId(null);
-      });
-    });
+    setTimeout(() => {
+      setSelectedId(null);
+    }, 300);
   }, []);
 
   return (
