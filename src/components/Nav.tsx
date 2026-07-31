@@ -39,7 +39,6 @@ export function Nav() {
         className={`mx-auto flex max-w-7xl items-center justify-between px-5 lg:px-10 transition-all duration-500 ${
           scrolled ? "my-3 rounded-full glass py-3 shadow-soft" : "py-5"
         }`}
-        style={scrolled ? { maxWidth: 1200 } : undefined}
       >
         <Link to="/" aria-label="Rankzio home" className="transition-all duration-500 hover:drop-shadow-[0_0_16px_oklch(0.62_0.18_245/0.5)]">
           <RankzioLogo hover height={scrolled ? 100 : 117} />
@@ -48,11 +47,14 @@ export function Nav() {
         <nav className="hidden items-center gap-1 md:flex">
           {links.map((l) => {
             const active =
-              l.to === "/" ? pathname === "/" : pathname.startsWith(l.to);
+              l.to === "/"
+                ? pathname === "/"
+                : pathname === l.to || pathname.startsWith(l.to + "/");
             return (
               <Link
                 key={l.to}
                 to={l.to}
+                aria-current={active ? "page" : undefined}
                 className="relative rounded-full px-4 py-2 text-sm font-medium text-foreground/75 transition-colors hover:text-foreground"
               >
                 {active && (
@@ -77,7 +79,9 @@ export function Nav() {
 
         <button
           type="button"
-          aria-label="Open menu"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
           className="flex h-11 w-11 items-center justify-center rounded-full glass md:hidden"
         >
@@ -88,7 +92,9 @@ export function Nav() {
       <AnimatePresence>
         {open && (
           <motion.div
-            key="mobile"
+            key="mobile-menu"
+            id="mobile-menu"
+            role="menu"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}

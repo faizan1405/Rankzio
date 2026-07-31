@@ -42,7 +42,7 @@ export function FloatingWhatsApp() {
       ref={btnRef}
       href={waLink("Hi Rankzio! I'd like to know more about your services.")}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       aria-label="Chat with Rankzio on WhatsApp"
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}

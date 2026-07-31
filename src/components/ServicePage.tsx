@@ -68,7 +68,7 @@ export function ServicePage(p: ServicePageProps) {
               </div>
             </Reveal>
             <Reveal delay={0.2}>
-              <div className="rounded-3xl p-[1.5px] shadow-float">
+              <div className="relative rounded-3xl p-[1.5px] shadow-float">
                 <span aria-hidden className="absolute inset-0 rounded-3xl" style={{ background: "var(--gradient-brand)" }} />
                 <div className="relative rounded-[calc(1.5rem-1.5px)] bg-background p-8">
                   <div className="text-xs font-semibold uppercase tracking-widest text-gradient-brand">Our Solution</div>

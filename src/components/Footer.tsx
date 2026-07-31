@@ -59,7 +59,7 @@ export function Footer() {
                   key={label}
                   href={href}
                   target={href.startsWith("http") ? "_blank" : undefined}
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   whileHover={{ y: -3 }}
                   className="group relative flex h-11 w-11 items-center justify-center rounded-full glass transition-shadow duration-500 hover:shadow-glow-brand"

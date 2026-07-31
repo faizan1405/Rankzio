@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 
 /**
@@ -10,13 +10,24 @@ import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 export function HeroScene() {
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 40, damping: 20, mass: 0.8 });
-  const sy = useSpring(my, { stiffness: 40, damping: 20, mass: 0.8 });
-  const tx = useTransform(sx, (v) => v * 12);
-  const ty = useTransform(sy, (v) => v * 12);
-  const rx = useTransform(sy, (v) => v * -3);
-  const ry = useTransform(sx, (v) => v * 3);
+  const sx = useSpring(mx, { stiffness: 100, damping: 30, mass: 0.8 });
+  const sy = useSpring(my, { stiffness: 100, damping: 30, mass: 0.8 });
+  const tx = useTransform(sx, (v) => v * 28);
+  const ty = useTransform(sy, (v) => v * 28);
+  const rx = useTransform(sy, (v) => v * -6);
+  const ry = useTransform(sx, (v) => v * 6);
+  const negTx = useMemo(() => useTransform(tx, (v) => -v), [tx]);
+  const negTy = useMemo(() => useTransform(ty, (v) => -v), [ty]);
   const ref = useRef<HTMLDivElement>(null);
+  const [paused, setPaused] = useState(false);
+
+  // Pause all animations when tab is hidden to save CPU/GPU.
+  useEffect(() => {
+    const onVis = () => setPaused(document.hidden);
+    document.addEventListener("visibilitychange", onVis);
+    onVis();
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
 
   useEffect(() => {
     let raf = 0;
@@ -30,6 +41,7 @@ export function HeroScene() {
       pending = null;
     };
     const handle = (e: PointerEvent) => {
+      if (paused) return;
       pending = { x: e.clientX, y: e.clientY };
       if (!raf) raf = requestAnimationFrame(flush);
     };
@@ -38,7 +50,7 @@ export function HeroScene() {
       window.removeEventListener("pointermove", handle);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, [mx, my]);
+  }, [mx, my, paused]);
 
   return (
     <div
@@ -63,7 +75,7 @@ export function HeroScene() {
         />
       </motion.div>
       <motion.div
-        style={{ x: useTransform(tx, (v) => -v), y: useTransform(ty, (v) => -v) }}
+        style={{ x: negTx, y: negTy }}
         className="absolute -right-32 top-0 h-[560px] w-[560px] rounded-full opacity-70 blur-3xl"
       >
         <div
